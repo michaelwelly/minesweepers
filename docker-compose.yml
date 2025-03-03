@@ -6,13 +6,25 @@ services:
     container_name: minesweeper-db
     restart: always
     environment:
-      POSTGRES_DB: minesweeper
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: minesweeper_test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+#  db:
+#    image: postgres:15
+#    container_name: minesweeper-db
+#    restart: always
+#    environment:
+#      POSTGRES_DB: minesweeper
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -20,5 +32,23 @@ services:
     ports:
       - "8080:8080"
 
+#  kafka:
+#    image: confluentinc/cp-kafka:latest
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_NODE_ID: 1
+#      KAFKA_PROCESS_ROLES: controller,broker
+#      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+#      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+#      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+#      KAFKA_LOG_DIRS: /var/lib/kafka/data
+#      KAFKA_CLUSTER_ID: "v7ibo6k6SNGS2iMmlcMZhg"
+#    volumes:
+#      - kafka-data:/var/lib/kafka/data
+
 volumes:
   pgdata:
+  kafka-data:

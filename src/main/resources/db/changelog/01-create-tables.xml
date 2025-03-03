@@ -26,6 +26,9 @@
             <column name="col" type="int"/>
             <column name="has_mine" type="boolean"/>
             <column name="revealed" type="boolean"/>
+            <column name="surrounding_mines" type="int" defaultValue="0"> <!-- Добавленная колонка -->
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

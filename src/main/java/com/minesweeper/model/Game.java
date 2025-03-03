@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -12,8 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Game {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Изменено с String на Long
+    @GeneratedValue
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     private int width;
     private int height;
@@ -25,9 +30,11 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cell> cells;
 
-    public Game(int width, int height, int minesCount) {
+    public Game(User user, int width, int height, int minesCount) {
+        this.user = user;
         this.width = width;
         this.height = height;
         this.minesCount = minesCount;
+        this.state = GameState.IN_PROGRESS;
     }
 }

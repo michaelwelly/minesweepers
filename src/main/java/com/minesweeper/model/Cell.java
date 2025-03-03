@@ -12,7 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Cell {
     @Id
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "game_id")

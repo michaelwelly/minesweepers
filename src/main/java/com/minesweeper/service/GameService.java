@@ -1,37 +1,53 @@
 package com.minesweeper.service;
 
 import com.minesweeper.model.Game;
+import com.minesweeper.model.GameDifficulty;
+import com.minesweeper.model.User;
+import jakarta.transaction.Transactional;
+
+import java.util.UUID;
 
 public interface GameService {
-    /**
-     * Создает новую игру с заданными параметрами.
-     * @param width ширина игрового поля
-     * @param height высота игрового поля
-     * @param minesCount количество мин
-     * @return созданная игра
-     */
-    Game createNewGame(int width, int height, int minesCount);
 
     /**
-     * Получает игру по ее идентификатору.
-     * @param gameId идентификатор игры
-     * @return объект Game
+     * Creates a new game with a predefined difficulty level for a specific user.
+     * @param user the user who starts the game
+     * @param difficulty the difficulty level (EASY, MEDIUM, OLYMPIC)
+     * @return the created game
      */
-    Game getGame(Long gameId);
+    Game createStandardGame(User user, GameDifficulty difficulty);
 
     /**
-     * Обрабатывает ход игрока.
-     * @param gameId идентификатор игры
-     * @param row строка хода
-     * @param col колонка хода
-     * @return обновленный объект Game
+     * Creates a new custom game with the given parameters for a specific user.
+     * @param user the user who starts the game
+     * @param width the width of the game board
+     * @param height the height of the game board
+     * @param minesCount the number of mines
+     * @return the created game
      */
-    Game makeMove(Long gameId, int row, int col);
+    Game createCustomGame(User user, int width, int height, int minesCount);
 
     /**
-     * Ищет игру по идентификатору.
-     * @param id идентификатор игры
-     * @return объект Game или null, если игра не найдена
+     * Retrieves a game by its identifier.
+     * @param gameId the game identifier
+     * @return the Game object
      */
-    Game findGameById(Long id);
+    Game getGame(UUID gameId);
+
+    /**
+     * Processes the player's move.
+     * @param user the user making the move
+     * @param gameId the game identifier
+     * @param row the row of the move
+     * @param col the column of the move
+     * @return the updated Game object
+     */
+    @Transactional
+    Game makeMove(User user, UUID gameId, int row, int col);
+    /**
+     * Finds a game by its identifier.
+     * @param id the game identifier
+     * @return the Game object or null if the game is not found
+     */
+    Game findGameById(UUID id);
 }
